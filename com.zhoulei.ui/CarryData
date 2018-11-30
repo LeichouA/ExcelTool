@@ -48,8 +48,8 @@ public class CarryData {
 				s[i] = wb1.getSheetName(i);
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "褰撳墠excel琛ㄤ笉鑳借В鏋悀" + filePath,
-					"閿欒", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "当前excel表不能解析~" + filePath,
+					"错误", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			try {
 				wb1.close();
@@ -170,7 +170,7 @@ public class CarryData {
 	}
 	
 	 public void getCellValueByCell(Cell cell,List list1) {
-	        //鍒ゆ柇鏄惁涓簄ull鎴栫┖涓�
+	        //判断是否为null或空串
 	        if (cell==null || cell.toString().trim().equals("")) {
 	            String cellValue=" ";
 	            list1.add(cellValue);	            
