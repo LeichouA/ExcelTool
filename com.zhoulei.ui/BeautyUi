@@ -44,42 +44,42 @@ public class BeautyUi implements ActionListener, ItemListener{
 	private JComboBox<String> comboBox2;
 	public BeautyUi() {
 		ImageIcon icon= new ImageIcon("image5.jpg");
-		JLabel lb = new JLabel(icon);// 鎶婅儗鏅浘鐗囨樉绀哄湪涓�涓爣绛鹃噷闈�
-	  // 鎶婃爣绛剧殑澶у皬浣嶇疆璁剧疆涓哄浘鐗囧垰濂藉～鍏呮暣涓潰鏉�
+		JLabel lb = new JLabel(icon);// 把背景图片显示在一个标签里面
+	  // 把标签的大小位置设置为图片刚好填充整个面板
 		lb.setBounds(0, 0, icon.getIconWidth(),icon.getIconHeight());
-		JFrame frame = new JFrame("Excel宸ュ叿");
+		JFrame frame = new JFrame("Excel工具");
 		frame.getLayeredPane().add(lb,new Integer(Integer.MIN_VALUE));
-		//鑾峰彇frame鐨勯《灞傚鍣�,骞惰缃负閫忔槑
+		//获取frame的顶层容器,并设置为透明
 		JPanel j=(JPanel)frame.getContentPane();
 		j.setOpaque(false);
-        /* 鍒涘缓闈㈡澘锛岃繖涓被浼间簬 HTML 鐨� div 鏍囩
-         * 鎴戜滑鍙互鍒涘缓澶氫釜闈㈡澘骞跺湪 JFrame 涓寚瀹氫綅缃�
-         * 闈㈡澘涓垜浠彲浠ユ坊鍔犳枃鏈瓧娈碉紝鎸夐挳鍙婂叾浠栫粍浠躲��
+        /* 创建面板，这个类似于 HTML 的 div 标签
+         * 我们可以创建多个面板并在 JFrame 中指定位置
+         * 面板中我们可以添加文本字段，按钮及其他组件。
          */
         JPanel panel = new JPanel();
         UIManager.put("ToolBar.isPaintPlainBackground", Boolean.TRUE);
-        panel.setOpaque(false);//涔熻璁╀粬閫忔槑
-        panel.setLayout(null);//涓轰簡浣跨敤鎸夐挳鐨勫畾浣�
+        panel.setOpaque(false);//也要让他透明
+        panel.setLayout(null);//为了使用按钮的定位
         frame.add(panel);
         panel.setLayout(null);    
-        //绗竴琛�
-        // 鍒涘缓 JLabel
-        JLabel label1 = new JLabel("璺緞1:");
+        //第一行
+        // 创建 JLabel
+        JLabel label1 = new JLabel("路径1:");
         label1.setForeground(Color.black);
         label1.setBounds(10,20,40,25);
         panel.add(label1);  
-        /* 杩欎釜鏂规硶瀹氫箟浜嗙粍浠剁殑浣嶇疆銆�
+        /* 这个方法定义了组件的位置。
          * setBounds(x, y, width, height)
-         * x 鍜� y 鎸囧畾宸︿笂瑙掔殑鏂颁綅缃紝鐢� width 鍜� height 鎸囧畾鏂扮殑澶у皬銆�
+         * x 和 y 指定左上角的新位置，由 width 和 height 指定新的大小。
          */
         /* 
-         * 鍒涘缓鏂囨湰鍩熺敤浜庣敤鎴疯緭鍏�
+         * 创建文本域用于用户输入
          */
         text1 = new JTextField(20);
         text1.setBounds(60,20,235,25);
         panel.add(text1); 
-        //閫夋嫨鎸夐挳1
-        button2 = new JButton("娴忚");
+        //选择按钮1
+        button2 = new JButton("浏览");
         button2.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.green));
         button2.setBounds(305,20,50, 25);
         panel.add(button2);
@@ -97,21 +97,21 @@ public class BeautyUi implements ActionListener, ItemListener{
         comboBox1.addItemListener(this);
         
 
-        //绗簩琛�
-        // 杈撳叆鏂囨湰鍩�2
-        JLabel label2 = new JLabel("璺緞2");
+        //第二行
+        // 输入文本域2
+        JLabel label2 = new JLabel("路径2");
         label2.setForeground(Color.black);
         label2.setBounds(10,50,80,25);
         panel.add(label2);
         /* 
-         *杩欎釜绫讳技鐢ㄤ簬杈撳叆鐨勬枃鏈煙
-         * 浣嗘槸杈撳叆鐨勪俊鎭細浠ョ偣鍙蜂唬鏇匡紝鐢ㄤ簬鍖呭惈瀵嗙爜鐨勫畨鍏ㄦ��
+         *这个类似用于输入的文本域
+         * 但是输入的信息会以点号代替，用于包含密码的安全性
          */
         text2 = new JTextField(20);
         text2.setBounds(60,50,235,25);
         panel.add(text2);
-        //閫夋嫨鎸夐挳2
-        button3 = new JButton("娴忚");
+        //选择按钮2
+        button3 = new JButton("浏览");
         button3.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.green));
         button3.setBounds(305,50, 50, 25);
         panel.add(button3);
@@ -128,8 +128,8 @@ public class BeautyUi implements ActionListener, ItemListener{
         comboBox2.addActionListener(this);
         comboBox2.addItemListener(this);
         
-        //鍖归厤琛�
-        JLabel label5 = new JLabel("鍖归厤:");
+        //匹配行
+        JLabel label5 = new JLabel("匹配:");
         label5.setFont(new Font("Dialog", 1, 15));
         label5.setForeground(Color.red);
         label5.setBounds(100,100,40,25);
@@ -139,7 +139,7 @@ public class BeautyUi implements ActionListener, ItemListener{
         text3.setBounds(142,100,235,25);
         panel.add(text3);
         
-        JLabel label6 = new JLabel("璧嬪��:");
+        JLabel label6 = new JLabel("赋值:");
         label6.setFont(new Font("Dialog", 1, 15));
         label6.setForeground(Color.red);
         label6.setBounds(100,150,40,25);
@@ -149,21 +149,21 @@ public class BeautyUi implements ActionListener, ItemListener{
         text4.setBounds(142,150,235,25);
         panel.add(text4);
         
-        /* 杩欎釜鏂规硶瀹氫箟浜嗙粍浠剁殑浣嶇疆銆�
+        /* 这个方法定义了组件的位置。
          * setBounds(x, y, width, height)
-         * x 鍜� y 鎸囧畾宸︿笂瑙掔殑鏂颁綅缃紝鐢� width 鍜� height 鎸囧畾鏂扮殑澶у皬銆�
+         * x 和 y 指定左上角的新位置，由 width 和 height 指定新的大小。
          */
         /* 
-         * 鍒涘缓鏂囨湰鍩熺敤浜庣敤鎴疯緭鍏�
+         * 创建文本域用于用户输入
          */
-        // 鍒涘缓鐧诲綍鎸夐挳
-        button1 = new JButton("杩愯");
+        // 创建登录按钮
+        button1 = new JButton("运行");
         button1.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.lightBlue));
         button1.setBounds(200, 200, 80,43);
         panel.add(button1);
         button1.addActionListener(this);
 
-        // 璁剧疆鐣岄潰鍙
+        // 设置界面可见
         
         // Setting the width and height of frame
         frame.setSize(500, 312);
@@ -194,7 +194,7 @@ public class BeautyUi implements ActionListener, ItemListener{
 
    	 			
    	 		}else{
-   	 			JOptionPane.showMessageDialog(null,"璇烽�夋嫨姝ｇ‘鐨勬枃浠秂xcel1","鎻愮ず",JOptionPane.WARNING_MESSAGE);
+   	 			JOptionPane.showMessageDialog(null,"请选择正确的文件excel1","提示",JOptionPane.WARNING_MESSAGE);
    	 		}
    		 return;
       	 }else if(e.getSource().equals(button3)) {
@@ -216,7 +216,7 @@ public class BeautyUi implements ActionListener, ItemListener{
    	   	 			}
    	 			}).start();
    	 		}else{
-   	 			JOptionPane.showMessageDialog(null,"璇烽�夋嫨姝ｇ‘鐨勬枃浠秂xcel1","鎻愮ず",JOptionPane.WARNING_MESSAGE);
+   	 			JOptionPane.showMessageDialog(null,"请选择正确的文件excel1","提示",JOptionPane.WARNING_MESSAGE);
    	 		}
    		 return;
       	 }else if(e.getSource().equals(button1)) {
@@ -224,19 +224,19 @@ public class BeautyUi implements ActionListener, ItemListener{
          		 mates=text3.getText();
           		 transfer=text4.getText(); 
       		 }else {
-      			JOptionPane.showMessageDialog(null,"璇疯緭鍏ヨ鐩栬寖鍥磣","閿欒",JOptionPane.ERROR_MESSAGE);
+      			JOptionPane.showMessageDialog(null,"请输入覆盖范围~","错误",JOptionPane.ERROR_MESSAGE);
       		 }
      		 if(text1.getText().equals("")){
-    			 JOptionPane.showMessageDialog(null,"璇疯緭鍏xcel1璺緞~","閿欒",JOptionPane.ERROR_MESSAGE);
+    			 JOptionPane.showMessageDialog(null,"请输入excel1路径~","错误",JOptionPane.ERROR_MESSAGE);
     			 text1.grabFocus();
     		 }else if (text2.getText().equals("")){
-    			 JOptionPane.showMessageDialog(null,"璇疯緭鍏xcel2璺緞~","閿欒",JOptionPane.ERROR_MESSAGE);
+    			 JOptionPane.showMessageDialog(null,"请输入excel2路径~","错误",JOptionPane.ERROR_MESSAGE);
     			 text2.grabFocus();
     		 }else if (text3.getText().equals("")){
-    			 JOptionPane.showMessageDialog(null,"璇疯緭鍏ヨ鐩栬寖鍥磣","閿欒",JOptionPane.ERROR_MESSAGE);
+    			 JOptionPane.showMessageDialog(null,"请输入覆盖范围~","错误",JOptionPane.ERROR_MESSAGE);
     			 text3.grabFocus();
     		 }else if (text4.getText().equals("")){
-    			 JOptionPane.showMessageDialog(null,"璇疯緭鍏ユ潯浠惰寖鍥磣","閿欒",JOptionPane.ERROR_MESSAGE);
+    			 JOptionPane.showMessageDialog(null,"请输入条件范围~","错误",JOptionPane.ERROR_MESSAGE);
     			 text4.grabFocus();
     		 }
      		 CarryData carryData= new CarryData();
@@ -253,7 +253,7 @@ public class BeautyUi implements ActionListener, ItemListener{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-     	  	JOptionPane.showMessageDialog(null, "鏂版枃浠剁敓鎴愭垚鍔燂紒");
+     	  	JOptionPane.showMessageDialog(null, "新文件生成成功！");
     		     		 
       	 }
     }
