@@ -1,0 +1,66 @@
+package com.zhoulei.ui;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JOptionPane;
+
+public class transfer {
+	
+	private Map<Integer,Integer> map;
+	private List<Integer> list;
+	
+	public transfer() {
+		this.map=new LinkedHashMap<Integer,Integer>();
+		this.list=new LinkedList<Integer>();
+	}
+	
+	public void setMap(String mates) {
+		String[] mate1=mates.split("\\|");
+		for(int i=0;i<mate1.length;i++) {
+ 			String[] mate2=mate1[i].toUpperCase().split(":");
+ 			int a=0;
+ 			int b=0;
+ 			a=columnNumber(mate2[0].trim());
+ 			b=columnNumber(mate2[1].trim());
+			map.put(a,b);
+ 		}
+	}
+	
+	public void setTransfer(String transfer) {
+		String[] transfer1=transfer.split("\\|");
+		for(int i=0;i<transfer1.length;i++) {
+			transfer1[i].toUpperCase().trim();
+			int a=columnNumber(transfer1[i]);
+			list.add(a);
+		}
+		
+	}
+	
+	
+	public Map<Integer, Integer> getMap() {
+		return map;
+	}
+	
+	public List<Integer> getList() {
+		return list;
+	}
+
+	private static int columnNumber(String charactor) {
+		if (!"".equals(charactor) && null != charactor) {
+			String s = charactor.toUpperCase();
+			if (s.length() == 1) {
+				return s.charAt(0) - 65; // B->1 C->3
+			} else {
+				// A ->1
+				return (s.charAt(0) - 64) * 26 + columnNumber(s.substring(1));
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "鍖归厤鍊间负绌烘垨涓嶈兘璇嗗埆~", "閿欒",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		return -1;
+	}
+}
