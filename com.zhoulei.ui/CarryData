@@ -1,0 +1,242 @@
+package com.zhoulei.ui;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.swing.JOptionPane;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+public class CarryData {
+
+	private List<List> list2;
+	
+	public CarryData() {
+		this.list2=new LinkedList();
+	}
+	
+	public static String[] getSheetNames(String filePath) {
+		String[] s = null;
+		Workbook wb1 = null;
+		InputStream in = null;
+		try {
+			in = new FileInputStream(filePath);
+			wb1 = WorkbookFactory.create(in);
+			s = new String[wb1.getNumberOfSheets()];
+			for (int i = 0; i < wb1.getNumberOfSheets(); i++) {
+				s[i] = wb1.getSheetName(i);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "褰撳墠excel琛ㄤ笉鑳借В鏋悀" + filePath,
+					"閿欒", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			try {
+				wb1.close();
+				in.close();
+			} catch (Exception e2) {
+			}
+		}
+		return s;
+	}
+	
+	public void carry(String path1,String path2,int i,int j,
+			Map<Integer,Integer> map,List<Integer> list) {
+		File file1=new File(path1);
+		File file2=new File(path2);
+		FileInputStream fip1 = null;
+		FileInputStream fip2 = null;
+		try {
+			fip1 = new FileInputStream(file1);
+			fip2= new FileInputStream(file2);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Workbook workbook1 = null;
+		Workbook workbook2 = null;
+		try {
+			 workbook1=WorkbookFactory.create(fip1);
+			 workbook2=WorkbookFactory.create(fip2);
+		} catch (EncryptedDocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Sheet sheet1=workbook1.getSheetAt(i);
+		Sheet sheet2=workbook2.getSheetAt(j);
+		int firstRowNum1=sheet1.getFirstRowNum();
+		int firstRowNum2=sheet2.getFirstRowNum();
+		
+		for(int rowNum1 =firstRowNum1;rowNum1 <= sheet1.getLastRowNum(); rowNum1++) {
+			
+			int tag=0;
+			Row row1 = sheet1.getRow(rowNum1);
+			int firstCellNum1 = 0;
+			int lastCellNum1 = 0;
+			if(row1 != null) {
+				firstCellNum1= row1.getFirstCellNum();
+				lastCellNum1 = row1.getPhysicalNumberOfCells()+firstCellNum1;
+			}
+			for(int rowNum2 =firstRowNum2;rowNum2 <= sheet2.getLastRowNum(); rowNum2++) {
+
+				Row row2 = sheet2.getRow(rowNum2);
+				if(row2 != null) {
+					int firstCellNum2 = row2.getFirstCellNum();
+					int lastCellNum2= row2.getPhysicalNumberOfCells();
+				}
+				if(row1!=null&&row2!=null) {
+					int mark=0;
+					List list1=new ArrayList();
+					if(mate(row1,row2,map)) {	
+						for(int cellNum = firstCellNum1; cellNum < lastCellNum1;cellNum++) {
+							Cell cell = row1.getCell(cellNum);
+							getCellValueByCell(cell,list1);
+						}
+						for(int k=0;k<list.size();k++) {
+							Cell cell1 = row2.getCell(list.get(k));
+							getCellValueByCell(cell1,list1);
+						}
+						list2.add(list1);
+						mark=mark+1;
+						tag=mark;
+						
+					}
+
+				}
+			
+			}
+			if(tag==0) {
+				for(int cellNum = firstCellNum1; cellNum < lastCellNum1;cellNum++) {
+					List list1=new ArrayList();
+					Cell cell = row1.getCell(cellNum);
+					getCellValueByCell(cell,list1);
+				}
+			}
+		}
+	
+	}
+	
+	public boolean mate(Row row1,Row row2,Map<Integer, Integer> map) {
+		boolean flag=false;
+ 		for(Entry<Integer, Integer> m : map.entrySet()){
+ 			System.out.println(m.getKey());
+ 			Cell cell1=row1.getCell(m.getKey());
+ 			Cell cell2=row2.getCell(m.getValue());
+ 			if(cell1!=null&&cell2!=null) {
+	 			setCellType(cell1);
+	 			setCellType(cell2);
+	 			String cellValue1=cell1.getStringCellValue().trim();
+	 			String cellValue2=cell2.getStringCellValue().trim();
+	 			if(cellValue1!=null&&cellValue2!=null){
+	 				if(cellValue1.equals(cellValue2)) {
+	 					flag=true;
+	 				}else {
+	 					flag=false;
+	 					return flag;
+	 				}
+	 				
+	 			}
+ 			}
+  		}
+		return flag;
+		
+	}
+	
+	 public void getCellValueByCell(Cell cell,List list1) {
+	        //鍒ゆ柇鏄惁涓簄ull鎴栫┖涓�
+	        if (cell==null || cell.toString().trim().equals("")) {
+	            String cellValue=" ";
+	            list1.add(cellValue);	            
+	        }else{		 
+		        int cellType=cell.getCellType();
+		        if(cellType==Cell.CELL_TYPE_NUMERIC) {
+		        	 double cellValue=0;
+		             cellValue = cell.getNumericCellValue(); 
+		             list1.add(cellValue);
+		        }else {	
+		        	String cellValue="";
+		            cellValue= cell.getStringCellValue().trim();
+		            cellValue=StringUtils.isEmpty(cellValue) ? "" : cellValue;  
+		            list1.add(cellValue);
+		        }
+		        
+	        }
+	    }
+	
+	public void setCellType(Cell cell) {
+		cell.setCellType(Cell.CELL_TYPE_STRING);
+	}
+	
+	public void newExcel(List<List> list2,String path) throws IOException {
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet1 = wb.createSheet();
+		for(int i=0;i<list2.size();i++) {
+			HSSFRow row= sheet1.createRow(i);
+			List list=list2.get(i);
+			for(int j=0;j<list.size();j++) {
+				Cell cell=row.createCell(j);
+				Object param = list.get(j);
+				if (param instanceof Double) {
+					cell.setCellValue((double) param);
+				}else if(param instanceof String){
+					cell.setCellValue((String) param);
+				}
+				
+			}
+		}
+		OutputStream out=null;
+		String path1=path;
+		path1=newFile(path1);
+		File file2=new File(path1);
+		try {
+			 out=new FileOutputStream(file2);
+			wb.write(out);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			out.close();
+			wb.close();
+		}		
+	}
+	
+	public  String newFile(String oldfileName) {
+		int index = oldfileName.lastIndexOf(".");
+		if (index < 0) {
+			return null;
+		}
+		String newFilePath = oldfileName.substring(0, index) + "new"
+				+ oldfileName.substring(index, oldfileName.length());
+		return newFilePath;
+	}
+
+	public List<List> getList2() {
+		return list2;
+	}	
+}
