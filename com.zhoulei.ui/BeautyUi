@@ -1,0 +1,276 @@
+package com.zhoulei.ui;
+
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+
+import org.jb2011.lnf.beautyeye.ch3_button.BEButtonUI;
+
+public class BeautyUi implements ActionListener, ItemListener{
+	
+	private JTextField text1;
+	private JTextField text2;
+	private JTextField text3;
+	private JTextField text4;
+	private JButton  button1;
+	private JButton  button2;
+	private JButton  button3;
+	private String PathA;
+	private String PathB;
+	private String mates;
+	private String transfer;
+	private int i;
+	private int j;
+	private JComboBox<String> comboBox1;
+	private JComboBox<String> comboBox2;
+	public BeautyUi() {
+		ImageIcon icon= new ImageIcon("image5.jpg");
+		JLabel lb = new JLabel(icon);// 鎶婅儗鏅浘鐗囨樉绀哄湪涓�涓爣绛鹃噷闈�
+	  // 鎶婃爣绛剧殑澶у皬浣嶇疆璁剧疆涓哄浘鐗囧垰濂藉～鍏呮暣涓潰鏉�
+		lb.setBounds(0, 0, icon.getIconWidth(),icon.getIconHeight());
+		JFrame frame = new JFrame("Excel宸ュ叿");
+		frame.getLayeredPane().add(lb,new Integer(Integer.MIN_VALUE));
+		//鑾峰彇frame鐨勯《灞傚鍣�,骞惰缃负閫忔槑
+		JPanel j=(JPanel)frame.getContentPane();
+		j.setOpaque(false);
+        /* 鍒涘缓闈㈡澘锛岃繖涓被浼间簬 HTML 鐨� div 鏍囩
+         * 鎴戜滑鍙互鍒涘缓澶氫釜闈㈡澘骞跺湪 JFrame 涓寚瀹氫綅缃�
+         * 闈㈡澘涓垜浠彲浠ユ坊鍔犳枃鏈瓧娈碉紝鎸夐挳鍙婂叾浠栫粍浠躲��
+         */
+        JPanel panel = new JPanel();
+        UIManager.put("ToolBar.isPaintPlainBackground", Boolean.TRUE);
+        panel.setOpaque(false);//涔熻璁╀粬閫忔槑
+        panel.setLayout(null);//涓轰簡浣跨敤鎸夐挳鐨勫畾浣�
+        frame.add(panel);
+        panel.setLayout(null);    
+        //绗竴琛�
+        // 鍒涘缓 JLabel
+        JLabel label1 = new JLabel("璺緞1:");
+        label1.setForeground(Color.black);
+        label1.setBounds(10,20,40,25);
+        panel.add(label1);  
+        /* 杩欎釜鏂规硶瀹氫箟浜嗙粍浠剁殑浣嶇疆銆�
+         * setBounds(x, y, width, height)
+         * x 鍜� y 鎸囧畾宸︿笂瑙掔殑鏂颁綅缃紝鐢� width 鍜� height 鎸囧畾鏂扮殑澶у皬銆�
+         */
+        /* 
+         * 鍒涘缓鏂囨湰鍩熺敤浜庣敤鎴疯緭鍏�
+         */
+        text1 = new JTextField(20);
+        text1.setBounds(60,20,235,25);
+        panel.add(text1); 
+        //閫夋嫨鎸夐挳1
+        button2 = new JButton("娴忚");
+        button2.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.green));
+        button2.setBounds(305,20,50, 25);
+        panel.add(button2);
+        button2.addActionListener(this);
+        
+        JLabel label3 = new JLabel("Sheet:");
+        label3.setForeground(Color.black);
+        label3.setBounds(370,20,40,25);
+        panel.add(label3);
+ 
+        comboBox1=new JComboBox<String>();
+        comboBox1.setBounds(405, 20, 75, 25);
+        panel.add(comboBox1);
+        comboBox1.addActionListener(this);
+        comboBox1.addItemListener(this);
+        
+
+        //绗簩琛�
+        // 杈撳叆鏂囨湰鍩�2
+        JLabel label2 = new JLabel("璺緞2");
+        label2.setForeground(Color.black);
+        label2.setBounds(10,50,80,25);
+        panel.add(label2);
+        /* 
+         *杩欎釜绫讳技鐢ㄤ簬杈撳叆鐨勬枃鏈煙
+         * 浣嗘槸杈撳叆鐨勪俊鎭細浠ョ偣鍙蜂唬鏇匡紝鐢ㄤ簬鍖呭惈瀵嗙爜鐨勫畨鍏ㄦ��
+         */
+        text2 = new JTextField(20);
+        text2.setBounds(60,50,235,25);
+        panel.add(text2);
+        //閫夋嫨鎸夐挳2
+        button3 = new JButton("娴忚");
+        button3.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.green));
+        button3.setBounds(305,50, 50, 25);
+        panel.add(button3);
+        button3.addActionListener(this);
+        
+        JLabel label4= new JLabel("Sheet:");
+        label4.setForeground(Color.black);
+        label4.setBounds(370,50,40,25);
+        panel.add(label4);
+        
+        comboBox2=new JComboBox<String>();
+        comboBox2.setBounds(405,50, 75, 25);
+        panel.add(comboBox2);
+        comboBox2.addActionListener(this);
+        comboBox2.addItemListener(this);
+        
+        //鍖归厤琛�
+        JLabel label5 = new JLabel("鍖归厤:");
+        label5.setFont(new Font("Dialog", 1, 15));
+        label5.setForeground(Color.red);
+        label5.setBounds(100,100,40,25);
+        panel.add(label5);
+       
+        text3 = new JTextField(20);
+        text3.setBounds(142,100,235,25);
+        panel.add(text3);
+        
+        JLabel label6 = new JLabel("璧嬪��:");
+        label6.setFont(new Font("Dialog", 1, 15));
+        label6.setForeground(Color.red);
+        label6.setBounds(100,150,40,25);
+        panel.add(label6);
+       
+        text4 = new JTextField(20);
+        text4.setBounds(142,150,235,25);
+        panel.add(text4);
+        
+        /* 杩欎釜鏂规硶瀹氫箟浜嗙粍浠剁殑浣嶇疆銆�
+         * setBounds(x, y, width, height)
+         * x 鍜� y 鎸囧畾宸︿笂瑙掔殑鏂颁綅缃紝鐢� width 鍜� height 鎸囧畾鏂扮殑澶у皬銆�
+         */
+        /* 
+         * 鍒涘缓鏂囨湰鍩熺敤浜庣敤鎴疯緭鍏�
+         */
+        // 鍒涘缓鐧诲綍鎸夐挳
+        button1 = new JButton("杩愯");
+        button1.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.lightBlue));
+        button1.setBounds(200, 200, 80,43);
+        panel.add(button1);
+        button1.addActionListener(this);
+
+        // 璁剧疆鐣岄潰鍙
+        
+        // Setting the width and height of frame
+        frame.setSize(500, 312);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+	}
+
+    public void actionPerformed(ActionEvent e) {
+    	if(e.getSource().equals(button2)){
+    		JFileChooser fd = new JFileChooser();  
+   	 		fd.showOpenDialog(null);  
+   	 		File f = fd.getSelectedFile();
+   	 		if(f != null){
+   	 			comboBox1.removeAllItems();
+   	 			PathA = f.getAbsolutePath();
+   	 			System.out.println(PathA);
+   	 			text1.setText(PathA);
+   	 			new Thread(new Runnable() {
+   	   	 			public void run() {
+   	   	   	 			String[] sheetNames=CarryData.getSheetNames(PathA);
+   	   	   	 			System.out.println(sheetNames[0]);
+   	   	   	 			for(int i=0;i<sheetNames.length;i++) {
+   	   	   	 			comboBox1.addItem(sheetNames[i]);
+   	   	   	 			}
+   	   	 			}
+   	 			}).start();	
+
+   	 			
+   	 		}else{
+   	 			JOptionPane.showMessageDialog(null,"璇烽�夋嫨姝ｇ‘鐨勬枃浠秂xcel1","鎻愮ず",JOptionPane.WARNING_MESSAGE);
+   	 		}
+   		 return;
+      	 }else if(e.getSource().equals(button3)) {
+      		JFileChooser fd = new JFileChooser();  
+   	 		fd.showOpenDialog(null);  
+   	 		File f = fd.getSelectedFile();
+   	 		if(f != null){
+   	 			comboBox2.removeAllItems();
+   	 			PathB = f.getAbsolutePath();
+   	 			System.out.println(PathB);
+   	 			text2.setText(PathB);
+   	 			new Thread(new Runnable() {
+   	   	 			public void run() {
+   	   	   	 			String[] sheetNames=CarryData.getSheetNames(PathB);
+   	   	   	 			System.out.println(sheetNames[0]);
+   	   	   	 			for(int i=0;i<sheetNames.length;i++) {
+   	   	   	 			comboBox2.addItem(sheetNames[i]);
+   	   	   	 			}
+   	   	 			}
+   	 			}).start();
+   	 		}else{
+   	 			JOptionPane.showMessageDialog(null,"璇烽�夋嫨姝ｇ‘鐨勬枃浠秂xcel1","鎻愮ず",JOptionPane.WARNING_MESSAGE);
+   	 		}
+   		 return;
+      	 }else if(e.getSource().equals(button1)) {
+      		 if(text3.getText()!=null&&text4.getText()!=null) {
+         		 mates=text3.getText();
+          		 transfer=text4.getText(); 
+      		 }else {
+      			JOptionPane.showMessageDialog(null,"璇疯緭鍏ヨ鐩栬寖鍥磣","閿欒",JOptionPane.ERROR_MESSAGE);
+      		 }
+     		 if(text1.getText().equals("")){
+    			 JOptionPane.showMessageDialog(null,"璇疯緭鍏xcel1璺緞~","閿欒",JOptionPane.ERROR_MESSAGE);
+    			 text1.grabFocus();
+    		 }else if (text2.getText().equals("")){
+    			 JOptionPane.showMessageDialog(null,"璇疯緭鍏xcel2璺緞~","閿欒",JOptionPane.ERROR_MESSAGE);
+    			 text2.grabFocus();
+    		 }else if (text3.getText().equals("")){
+    			 JOptionPane.showMessageDialog(null,"璇疯緭鍏ヨ鐩栬寖鍥磣","閿欒",JOptionPane.ERROR_MESSAGE);
+    			 text3.grabFocus();
+    		 }else if (text4.getText().equals("")){
+    			 JOptionPane.showMessageDialog(null,"璇疯緭鍏ユ潯浠惰寖鍥磣","閿欒",JOptionPane.ERROR_MESSAGE);
+    			 text4.grabFocus();
+    		 }
+     		 CarryData carryData= new CarryData();
+     		 transfer  tran=new transfer();
+     		 tran.setMap(mates);
+     		 tran.setTransfer(transfer);
+     	  	 Map<Integer,Integer> map=tran.getMap();
+     	  	 List<Integer> list=tran.getList();
+     	  	 carryData.carry(PathA, PathB, i, j, map, list);
+     	  	 List<List> list2=carryData.getList2();
+     	  	 try {
+				carryData.newExcel(list2,PathA);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+     	  	JOptionPane.showMessageDialog(null, "鏂版枃浠剁敓鎴愭垚鍔燂紒");
+    		     		 
+      	 }
+    }
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		
+		if (e.getSource().equals(comboBox1)&&e.getStateChange() == ItemEvent.SELECTED) {
+			String text=(String) comboBox1.getSelectedItem();
+			i=comboBox1.getSelectedIndex();
+
+		}else if(e.getSource().equals(comboBox2)&&e.getStateChange() == ItemEvent.SELECTED){
+			String text=(String) comboBox2.getSelectedItem();
+			j=comboBox2.getSelectedIndex();
+		}
+			
+	}
+    
+    
+}
