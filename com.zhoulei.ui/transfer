@@ -58,7 +58,7 @@ public class transfer {
 				return (s.charAt(0) - 64) * 26 + columnNumber(s.substring(1));
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "鍖归厤鍊间负绌烘垨涓嶈兘璇嗗埆~", "閿欒",
+			JOptionPane.showMessageDialog(null, "匹配值为空或不能识别~", "错误",
 					JOptionPane.ERROR_MESSAGE);
 		}
 		return -1;
