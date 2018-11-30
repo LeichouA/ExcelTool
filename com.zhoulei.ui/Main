@@ -1,0 +1,20 @@
+package com.zhoulei.ui;
+
+import javax.swing.UIManager;
+
+import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
+
+public class Main {
+
+	public static void main(String[] args) {
+ 		try {
+ 			BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.FrameBorderStyle.generalNoTranslucencyShadow;//osLookAndFeelDecorated
+ 			BeautyEyeLNFHelper.translucencyAtFrameInactive = false;
+			BeautyEyeLNFHelper.launchBeautyEyeLNF();
+			UIManager.put("RootPane.setupButtonVisible", false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+ 		new BeautyUi();
+	}
+}
